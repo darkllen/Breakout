@@ -6,8 +6,8 @@ import java.awt.event.*;
 
 public class Main extends GraphicsProgram {
 
-    double x=1;
-    double y=1;
+    double x=4;
+    double y=-3;
     /** Width and height of application window in pixels */
     public static final int APPLICATION_WIDTH = 400;
     public static final int APPLICATION_HEIGHT = 600;
@@ -46,13 +46,18 @@ public class Main extends GraphicsProgram {
     private static final int BRICK_Y_OFFSET = 70;
 
     /** Number of turns */
-    private static final int NTURNS = 3;
+    private int NTURNS = 3;
 
     /**paddle's speed*/
-    private static final double speed = 1;
+    private static final double speed = 8;
     GOval ball;
     GRect paddle;
     boolean isStart = false;
+
+    public void setSpeed(){
+        x=Math.random()+0.2;
+        y=Math.random()*(1-x)+0.2;
+    }
 
     public void run(){
 
@@ -62,6 +67,7 @@ public class Main extends GraphicsProgram {
 
             System.out.println();
         }
+        setSpeed();
         while (true){
 
             moveBall(x,y);
@@ -80,8 +86,18 @@ public class Main extends GraphicsProgram {
                 if (wallNumber()==2){
                     y=-y;
                 }
+                if (wallNumber()==0){
+                    System.out.println("sda");
+                    if (NTURNS==0){
+                        return;
+                    }else {
+                        setSpeed();
+                        NTURNS--;
+                    }
+                    ball.setLocation(WIDTH/2,HEIGHT/2);
+                }
             }
-            pause(5);
+            pause(0.5);
         }
     }
 
