@@ -51,10 +51,25 @@ public class Main extends GraphicsProgram {
     GRect paddle;
     boolean isStart = false;
 
-    public void init(){
+    public void run(){
         addMouseListeners();
         setup();
+        while(!isStart){
+
+            System.out.println();
+        }
+        while (true){
+            int x=1;
+            double y=-0.5;
+            moveBall(x,y);
+            pause(5);
+        }
     }
+
+    private void moveBall(double x, double y) {
+        ball.move(x,y);
+    }
+
     public void setup(){
         this.setSize(WIDTH,HEIGHT);
 
@@ -63,14 +78,22 @@ public class Main extends GraphicsProgram {
         ball = Ball.createBall(BALL_RADIUS, WIDTH/2, HEIGHT/2, this);
 
     }
-    public void mouseClicked(){
+    public void mouseClicked(MouseEvent e){
         isStart=true;
     }
+
+
     public void mouseMoved(MouseEvent e)
     {
-       while(e.getX()>paddle.getX()+PADDLE_WIDTH/2){
-           if(paddle.getX()+PADDLE_WIDTH<WIDTH) paddle.move(speed,0);else {paddle.move(-speed,0);return;}}
-        while(e.getX()<paddle.getX()+PADDLE_WIDTH/2){
-          if(paddle.getX()>0) paddle.move(-speed,0);else{ paddle.move(speed,0);return;}}
-    }
+        if (isStart){
+            while(e.getX()>paddle.getX()+PADDLE_WIDTH/2){
+                if(paddle.getX()+PADDLE_WIDTH<WIDTH) {
+                    paddle.move(speed,0);
+                }else {paddle.move(-speed,0);return;}}
+            while(e.getX()<paddle.getX()+PADDLE_WIDTH/2){
+                if(paddle.getX()>0) paddle.move(-speed,0);else{ paddle.move(speed,0);return;}}
+        }
+        }
+
+
 }

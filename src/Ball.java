@@ -1,5 +1,7 @@
 import acm.graphics.GOval;
 
+import static acm.util.JTFTools.pause;
+
 public class Ball {
 
     public static GOval createBall(int radius, int startX, int startY, Main main){
