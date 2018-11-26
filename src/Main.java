@@ -49,7 +49,7 @@ public class Main extends GraphicsProgram {
     private int NTURNS = 3;
 
     /**paddle's speed*/
-    private static final double speed = 8;
+    private static final double speed = 0.4;
     GOval ball;
     GRect paddle;
     boolean isStart = false;
@@ -63,42 +63,49 @@ public class Main extends GraphicsProgram {
 
         addMouseListeners();
         setup();
-        while(!isStart){
+        while(true){
+            while(!isStart){
 
-            System.out.println();
-        }
-        setSpeed();
-        while (true){
-
-            moveBall(x,y);
-            GObject object = getCollidingObject();
-            if (object!=null){
-                if (object.getWidth()!=PADDLE_WIDTH){
-                    remove(object);
-                }
-                if (jumpSide(object)==1) x=-x;else y=-y;
-
+                System.out.println();
             }
-            if (checkWalls()){
-                if (wallNumber()==1){
-                    x=-x;
-                }
-                if (wallNumber()==2){
-                    y=-y;
-                }
-                if (wallNumber()==0){
-                    System.out.println("sda");
-                    if (NTURNS==0){
-                        return;
-                    }else {
-                        setSpeed();
-                        NTURNS--;
+            setSpeed();
+            while (true){
+
+                moveBall(x,y);
+                GObject object = getCollidingObject();
+                if (object!=null){
+                    if (object.getWidth()!=PADDLE_WIDTH){
+                        remove(object);
                     }
-                    ball.setLocation(WIDTH/2,HEIGHT/2);
+                    if (jumpSide(object)==1) x=-x;else y=-y;
+
                 }
+                if (checkWalls()){
+                    if (wallNumber()==1){
+                        x=-x;
+                    }
+                    if (wallNumber()==2){
+                        y=-y;
+                    }
+                    if (wallNumber()==0){
+                        System.out.println("sda");
+                        if (NTURNS==0){
+                            return;
+                        }else {
+                            setSpeed();
+                            NTURNS--;
+                        }
+                        ball.setLocation(WIDTH/2,HEIGHT/2);
+                        break;
+                    }
+                }
+                pause(speed);
             }
-            pause(0.5);
+            isStart=false;
+            remove(ball);
+            ball = Ball.createBall(BALL_RADIUS, WIDTH/2, HEIGHT/2, this);
         }
+
     }
 
     private void moveBall(double x, double y) {
