@@ -1,3 +1,4 @@
+import acm.graphics.GOval;
 import acm.graphics.GRect;
 import acm.program.GraphicsProgram;
 import java.awt.event.*;
@@ -46,8 +47,9 @@ public class Main extends GraphicsProgram {
 
     /**paddle's speed*/
     private static final double speed = 1;
-
+    GOval ball;
     GRect paddle;
+    boolean isStart = false;
 
     public void init(){
         addMouseListeners();
@@ -57,6 +59,12 @@ public class Main extends GraphicsProgram {
         this.setSize(WIDTH,HEIGHT);
 
        paddle= GPaddle.createPaddle(WIDTH/2-PADDLE_WIDTH/2, HEIGHT-PADDLE_Y_OFFSET-PADDLE_HEIGHT, PADDLE_WIDTH, PADDLE_HEIGHT,this);
+        Brick.createBricks(NBRICKS_PER_ROW,NBRICK_ROWS,BRICK_SEP,BRICK_WIDTH,BRICK_HEIGHT,BRICK_Y_OFFSET,this);
+        ball = Ball.createBall(BALL_RADIUS, WIDTH/2, HEIGHT/2, this);
+
+    }
+    public void mouseClicked(){
+        isStart=true;
     }
     public void mouseMoved(MouseEvent e)
     {
