@@ -1,4 +1,6 @@
+import acm.graphics.GRect;
 import acm.program.GraphicsProgram;
+import java.awt.event.*;
 
 public class Main extends GraphicsProgram {
 
@@ -42,11 +44,25 @@ public class Main extends GraphicsProgram {
     /** Number of turns */
     private static final int NTURNS = 3;
 
+    /**paddle's speed*/
+    private static final double speed = 1;
+
+    GRect paddle;
+
     public void init(){
-//fdafsdg
+        addMouseListeners();
+        setup();
     }
     public void setup(){
-        //dasjsaj;
+        this.setSize(WIDTH,HEIGHT);
 
+       paddle= GPaddle.createPaddle(WIDTH/2-PADDLE_WIDTH/2, HEIGHT-PADDLE_Y_OFFSET-PADDLE_HEIGHT, PADDLE_WIDTH, PADDLE_HEIGHT,this);
+    }
+    public void mouseMoved(MouseEvent e)
+    {
+       while(e.getX()>paddle.getX()+PADDLE_WIDTH/2){
+           if(paddle.getX()+PADDLE_WIDTH<WIDTH) paddle.move(speed,0);else {paddle.move(-speed,0);return;}}
+        while(e.getX()<paddle.getX()+PADDLE_WIDTH/2){
+          if(paddle.getX()>0) paddle.move(-speed,0);else{ paddle.move(speed,0);return;}}
     }
 }
