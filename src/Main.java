@@ -1,3 +1,4 @@
+import acm.graphics.GObject;
 import acm.graphics.GOval;
 import acm.graphics.GRect;
 import acm.program.GraphicsProgram;
@@ -94,6 +95,35 @@ public class Main extends GraphicsProgram {
                 if(paddle.getX()>0) paddle.move(-speed,0);else{ paddle.move(speed,0);return;}}
         }
         }
+
+
+    private boolean checkWalls(){
+        if(ball.getX()==0) return true;
+        if(ball.getY()==0) return true;
+        if(ball.getX()+BALL_RADIUS==WIDTH)return true;
+        if(ball.getY()+BALL_RADIUS==HEIGHT)return true;
+        return false;
+    }
+
+    //1-left/right
+    //2-up
+    //0-bottom
+    private int wallNumber(){
+        if(ball.getX()==0) return 1;
+        if(ball.getY()==0) return 2;
+        if(ball.getX()+BALL_RADIUS==WIDTH)return 1;
+        if(ball.getY()+BALL_RADIUS==HEIGHT)return 0;
+        return 0;
+
+    }
+
+    private GObject getCollidingObject(){
+        if(getElementAt(ball.getX(),ball.getY())!=null) return getElementAt(ball.getX(),ball.getY());else
+        if(getElementAt(ball.getX()+BALL_RADIUS,ball.getY())!=null) return getElementAt(ball.getX()+BALL_RADIUS,ball.getY());else
+        if(getElementAt(ball.getX(),ball.getY()+BALL_RADIUS)!=null) return getElementAt(ball.getX(),ball.getY()+BALL_RADIUS);else
+        if(getElementAt(ball.getX()+BALL_RADIUS,ball.getY()+BALL_RADIUS)!=null) return getElementAt(ball.getX()+BALL_RADIUS,ball.getY()+BALL_RADIUS);
+        else return null;
+    }
 
 
 }
