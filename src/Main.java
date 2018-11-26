@@ -6,6 +6,8 @@ import java.awt.event.*;
 
 public class Main extends GraphicsProgram {
 
+    double x=1;
+    double y=1;
     /** Width and height of application window in pixels */
     public static final int APPLICATION_WIDTH = 400;
     public static final int APPLICATION_HEIGHT = 600;
@@ -25,7 +27,7 @@ public class Main extends GraphicsProgram {
     private static final int NBRICKS_PER_ROW = 10;
 
     /** Number of rows of bricks */
-    private static final int NBRICK_ROWS = 10;
+    private static final int NBRICK_ROWS = 2;
 
     /** Separation between bricks */
     private static final int BRICK_SEP = 4;
@@ -53,8 +55,7 @@ public class Main extends GraphicsProgram {
     boolean isStart = false;
 
     public void run(){
-        int x=1;
-        double y=-0.5;
+
         addMouseListeners();
         setup();
         while(!isStart){
@@ -69,7 +70,8 @@ public class Main extends GraphicsProgram {
                 if (object.getWidth()!=PADDLE_WIDTH){
                     remove(object);
                 }
-                
+                if (jumpSide(object)==1) x=-x;else y=-y;
+
             }
             if (checkWalls()){
                 if (wallNumber()==1){
@@ -112,12 +114,21 @@ public class Main extends GraphicsProgram {
         }
         }
 
+    //1-left/right
+    //2-up/bottom
+    private int jumpSide(GObject object){
+        if(ball.getX()>=object.getX()+object.getWidth()-x) return 1;
+        if(ball.getX()+ball.getWidth()-x<=object.getX()) return 1;
+        return 2;
+
+    }
+
 
     private boolean checkWalls(){
-        if(ball.getX()==0) return true;
-        if(ball.getY()==0) return true;
-        if(ball.getX()+BALL_RADIUS==WIDTH)return true;
-        if(ball.getY()+BALL_RADIUS==HEIGHT)return true;
+        if(ball.getX()<=0) return true;
+        if(ball.getY()<=0) return true;
+        if(ball.getX()+BALL_RADIUS>=WIDTH)return true;
+        if(ball.getY()+BALL_RADIUS>=HEIGHT)return true;
         return false;
     }
 
@@ -125,10 +136,10 @@ public class Main extends GraphicsProgram {
     //2-up
     //0-bottom
     private int wallNumber(){
-        if(ball.getX()==0) return 1;
-        if(ball.getY()==0) return 2;
-        if(ball.getX()+BALL_RADIUS==WIDTH)return 1;
-        if(ball.getY()+BALL_RADIUS==HEIGHT)return 0;
+        if(ball.getX()<=0) return 1;
+        if(ball.getY()<=0) return 2;
+        if(ball.getX()+BALL_RADIUS>=WIDTH)return 1;
+        if(ball.getY()+BALL_RADIUS>=HEIGHT)return 0;
         return 0;
 
     }
