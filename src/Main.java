@@ -53,6 +53,8 @@ public class Main extends GraphicsProgram {
     boolean isStart = false;
 
     public void run(){
+        int x=1;
+        double y=-0.5;
         addMouseListeners();
         setup();
         while(!isStart){
@@ -60,9 +62,23 @@ public class Main extends GraphicsProgram {
             System.out.println();
         }
         while (true){
-            int x=1;
-            double y=-0.5;
+
             moveBall(x,y);
+            GObject object = getCollidingObject();
+            if (object!=null){
+                if (object.getWidth()!=PADDLE_WIDTH){
+                    remove(object);
+                }
+                
+            }
+            if (checkWalls()){
+                if (wallNumber()==1){
+                    x=-x;
+                }
+                if (wallNumber()==2){
+                    y=-y;
+                }
+            }
             pause(5);
         }
     }
