@@ -1,3 +1,4 @@
+import acm.graphics.GMath;
 import acm.graphics.GObject;
 import acm.graphics.GOval;
 import acm.graphics.GRect;
@@ -56,7 +57,7 @@ public class Main extends GraphicsProgram {
 
     public void setSpeed(){
         x=Math.random()+0.2;
-        y=Math.random()*(1-x)+0.2;
+        y=-1*Math.random()*(1-x)+0.2;
     }
 
     public void run(){
@@ -167,12 +168,18 @@ public class Main extends GraphicsProgram {
 
     }
 
+
+
     private GObject getCollidingObject(){
-        if(getElementAt(ball.getX(),ball.getY())!=null) return getElementAt(ball.getX(),ball.getY());else
-        if(getElementAt(ball.getX()+BALL_RADIUS,ball.getY())!=null) return getElementAt(ball.getX()+BALL_RADIUS,ball.getY());else
-        if(getElementAt(ball.getX(),ball.getY()+BALL_RADIUS)!=null) return getElementAt(ball.getX(),ball.getY()+BALL_RADIUS);else
-        if(getElementAt(ball.getX()+BALL_RADIUS,ball.getY()+BALL_RADIUS)!=null) return getElementAt(ball.getX()+BALL_RADIUS,ball.getY()+BALL_RADIUS);
-        else return null;
+        for (int i =0;i<360;i++){
+            GObject object = getElementAt(ball.getX()+ball.getWidth()/2+(BALL_RADIUS)* GMath.cosDegrees(i),ball.getY()+ball.getHeight()/2+(BALL_RADIUS)*GMath.sinDegrees(i));
+
+            if (object!=null){
+                System.out.println(object);
+                return object;
+            }
+        }
+       return null;
     }
 
 
