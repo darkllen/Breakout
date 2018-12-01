@@ -71,9 +71,10 @@ public class Main extends GraphicsProgram {
             }
             while (true){
 
-                ball.moveBall(x,y);
-                GObject object = getCollidingObject();
+
+                Brick object = getCollidingObject();
                 if (object!=null){
+                    pause(500);
                     if (jumpSide(object)==1) x=-x;else y=-y;
 
                     if (object.getWidth()!=PADDLE_WIDTH){
@@ -100,6 +101,7 @@ public class Main extends GraphicsProgram {
                         break;
                     }
                 }
+                ball.moveBall(x,y);
                 pause(speed);
             }
             isStart=false;
@@ -142,9 +144,9 @@ public class Main extends GraphicsProgram {
 
     //1-left/right
     //2-up/bottom
-    private int jumpSide(GObject object){
-        if(ball.getCentreX()-BALL_RADIUS>=object.getX()+object.getWidth()) return 1;
-        if(ball.getCentreX()+BALL_RADIUS<=object.getX()) return 1;
+    private int jumpSide(Brick object){
+        if(ball.getCentreX()-BALL_RADIUS>=object.getCollisionX()) return 1;
+        if(ball.getCentreX()+BALL_RADIUS<=object.getCollisionX()) return 1;
         return 2;
 
     }
@@ -172,34 +174,17 @@ public class Main extends GraphicsProgram {
 
 
 
-    private GObject getCollidingObject(){
+    private Brick getCollidingObject(){
         for (int i =0;i<360;i++){
-            double ballCentreX = ball.getCentreX();
-            double ballVectorX = (BALL_RADIUS+1.01)*GMath.cosDegrees(i);
-            double ballCentreY =ball.getCentreY();
-            double ballVectorY = (BALL_RADIUS+1.01)*GMath.sinDegrees(i);
+            double ballCentreX = ball.getCentreX()+x/2;
+            double ballVectorX = (BALL_RADIUS)*GMath.cosDegrees(i);
+            double ballCentreY =ball.getCentreY()+y/2;
+            double ballVectorY = (BALL_RADIUS)*GMath.sinDegrees(i);
             double  kx = 0;
             double  ky = 0;
 
-          /*  if (i<90){
-             kx=1.1;
-             ky=-1.1;
-            }else
-            if (i<180){
-                kx=-0.1;
-                ky=-0.1;
-            }else
-            if (i<270){
-                kx=-0.1;
-                ky=0.1;
-            }else
-            if (i<360){
-                kx=0.1;
-                ky=0.1;
-            }*/
-
-            GObject object = getElementAt(ballCentreX+ballVectorX+kx,ballCentreY+ballVectorY);
-            if (object instanceof Ball == false){
+            GObject object = getElementAt(ballCentreX+ballVectorX,ballCentreY+ballVectorY);
+            if (object instanceof Brick){
                 System.out.println(i);
                 System.out.println(ballCentreX);
                 System.out.println(ballCentreY);
@@ -208,7 +193,10 @@ public class Main extends GraphicsProgram {
                 System.out.println(ballCentreX+ballVectorX+kx);
                 System.out.println(ballCentreY+ballVectorY+ky);
                 System.out.println(object);
-                return object;
+                Brick brick = (Brick) object;
+                brick.setCollisionX(ballCentreX+ballVectorX);
+                brick.setCollisionY(ballCentreY+ballVectorY);
+                return brick;
             }
         }
        return null;

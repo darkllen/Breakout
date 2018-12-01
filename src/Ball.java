@@ -10,13 +10,16 @@ public class Ball extends GCompound {
     private double centreY;
 
     public Ball(double radius, double centreX, double centreY) {
+        GPolygon polygon = new GPolygon();
+        this.add(polygon);
     for (int i = 0; i<360; i++){
         GLine point = new GLine(centreX+radius*GMath.cosDegrees(i), centreY+radius*GMath.sinDegrees(i),centreX+radius*GMath.cosDegrees(i), centreY+radius*GMath.sinDegrees(i));
         this.add(point);
-
+        polygon.addVertex(centreX+radius*GMath.cosDegrees(i), centreY+radius*GMath.sinDegrees(i));
     }
         this.centreX=centreX;
         this.centreY=centreY;
+        polygon.setFilled(true);
     this.setColor(Color.RED);
     }
 
