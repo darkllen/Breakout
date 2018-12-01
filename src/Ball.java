@@ -1,14 +1,19 @@
 import acm.graphics.*;
-
 import java.awt.*;
-
-import static acm.util.JTFTools.pause;
 
 public class Ball extends GCompound {
 
+    //centre coordinates
     private double centreX;
     private double centreY;
 
+    /**
+     * create ball from 360 points and polygon (also 360 points)
+     *
+     * @param radius radius of ball
+     * @param centreX centre X ball point
+     * @param centreY centre Y ball point
+     */
     public Ball(double radius, double centreX, double centreY) {
         GPolygon polygon = new GPolygon();
         this.add(polygon);
@@ -23,6 +28,12 @@ public class Ball extends GCompound {
     this.setColor(Color.RED);
     }
 
+    /**
+     * Move ball by x,y and change centre according to new coordinates
+     *
+     * @param x
+     * @param y
+     */
     public void moveBall(double x, double y) {
         this.move(x,y);
         centreX+=x;

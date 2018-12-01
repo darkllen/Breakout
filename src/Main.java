@@ -1,14 +1,15 @@
 import acm.graphics.GMath;
 import acm.graphics.GObject;
-import acm.graphics.GOval;
 import acm.graphics.GRect;
 import acm.program.GraphicsProgram;
 import java.awt.event.*;
 
 public class Main extends GraphicsProgram {
 
-    double x=4;
-    double y=-3;
+    //changing ball coordinates for each move
+    double x=1;
+    double y=1;
+
     /** Width and height of application window in pixels */
     public static final int APPLICATION_WIDTH = 600;
     public static final int APPLICATION_HEIGHT = 800;
@@ -38,7 +39,7 @@ public class Main extends GraphicsProgram {
             (WIDTH - (NBRICKS_PER_ROW - 1) * BRICK_SEP) / NBRICKS_PER_ROW;
 
     /** Height of a brick */
-    private static final int BRICK_HEIGHT = 8;
+    private static final int BRICK_HEIGHT = 28;
 
     /** Radius of the ball in pixels */
     private static final int BALL_RADIUS = 10;
@@ -49,39 +50,68 @@ public class Main extends GraphicsProgram {
     /** Number of turns */
     private int NTURNS = 3;
 
-    /**paddle's speed*/
+    //pause between next move (less amount is faster speed)
     private static final double speed = 0.01;
+
     Ball ball;
     GRect paddle;
     boolean isStart = false;
 
+    /**
+     * change x and y changes for each move
+     */
+
+    //TODO change speed for random
     public void setSpeed(){
         y=0.1;
         x=0.1;
     }
 
     public void run(){
-
         addMouseListeners();
         setup();
+
         while(true){
+            //send ball back to avoid problem with ball returning
             ball.sendToBack();
+
+            //TODO if fix is possible
+            //fix it someone please
             while(!isStart){
                System.out.println();
             }
+
+            //checking for bricks and walls collision, changing speed according to those collisions
             while (true){
 
-
                 Brick object = getCollidingObject();
+                //if there is collision with brick
                 if (object!=null){
-                    pause(500);
-                    if (jumpSide(object)==1) x=-x;else y=-y;
 
+                    //TODO don`t forget to delete this pause after debugging
+                    //pause for debugging(
+                    pause(500);
+
+                    switch (jumpSide(object)){
+                        case 1:
+                            x=-x;
+                            break;
+                        case 2:
+                            y=-y;
+                            break;
+                        case 3:
+                            x=-x;
+                            y=-y;
+                    }
+                    //TODO fix this if, it should be check in getCollision method
+                    //fix it, someone, too
+                    //check if brick isn`t a paddle
                     if (object.getWidth()!=PADDLE_WIDTH){
                         remove(object);
                     }
-
                 }
+                //checking for walls collision
+                //creation new ball if it`s a bottom one
                 if (checkWalls()){
                     if (wallNumber()==1){
                         x=-x;
@@ -90,7 +120,6 @@ public class Main extends GraphicsProgram {
                         y=-y;
                     } else
                     if (wallNumber()==0){
-                        System.out.println("sda");
                         if (NTURNS==0){
                             return;
                         }else {
@@ -102,8 +131,10 @@ public class Main extends GraphicsProgram {
                     }
                 }
                 ball.moveBall(x,y);
+                //final pause to regulate speed of the game
                 pause(speed);
             }
+            //create new ball if previous is lost
             isStart=false;
             remove(ball);
             ball =new Ball(BALL_RADIUS, WIDTH/2, HEIGHT/2);
@@ -113,25 +144,36 @@ public class Main extends GraphicsProgram {
     }
 
 
-
+    /**
+     * create start bricks, paddle and ball
+     */
     public void setup(){
         this.setSize(WIDTH,HEIGHT);
-
-       paddle= GPaddle.createPaddle(WIDTH/2-PADDLE_WIDTH/2, HEIGHT-PADDLE_Y_OFFSET-PADDLE_HEIGHT, PADDLE_WIDTH, PADDLE_HEIGHT,this);
+        paddle= GPaddle.createPaddle(WIDTH/2-PADDLE_WIDTH/2, HEIGHT-PADDLE_Y_OFFSET-PADDLE_HEIGHT, PADDLE_WIDTH, PADDLE_HEIGHT,this);
         Brick.createBricks(NBRICKS_PER_ROW,NBRICK_ROWS,BRICK_SEP,BRICK_WIDTH,BRICK_HEIGHT,BRICK_Y_OFFSET,this);
         ball =new Ball(BALL_RADIUS, WIDTH/2, HEIGHT/2);
         add(ball);
 
     }
+
+    /**
+     * Start game for each click
+     *
+     * @param e
+     */
+    //TODO waitForClick instead of this
     public void mouseClicked(MouseEvent e){
         isStart=true;
     }
 
 
-    public void mouseMoved(MouseEvent e)
-
-    {
-        System.out.println(getElementAt(e.getX(),e.getY()));
+    /**
+     * Move paddle to the coordinates of mouse (speed is the same as mouse speed)
+     *
+     * @param e
+     */
+    //TODO give a possibility to change paddle speed
+    public void mouseMoved(MouseEvent e) {
         if (isStart){
             while(e.getX()>paddle.getX()+PADDLE_WIDTH/2){
                 if(paddle.getX()+PADDLE_WIDTH<WIDTH) {
@@ -142,16 +184,33 @@ public class Main extends GraphicsProgram {
         }
         }
 
-    //1-left/right
-    //2-up/bottom
+    /**
+     *
+     * @param object brick
+     * @return 1 for sides, 2 for bottom and top, 3 for corner
+     */
+    //TODO more accuracy
     private int jumpSide(Brick object){
-        if(ball.getCentreX()-BALL_RADIUS>=object.getCollisionX()) return 1;
-        if(ball.getCentreX()+BALL_RADIUS<=object.getCollisionX()) return 1;
-        return 2;
+
+        double cornerX1 = object.getX();
+        double cornerY1 = object.getY();
+        double cornerX4 = object.getX() + object.getWidth();
+        double cornerY4 = object.getY() + object.getHeight();
+
+        if (ball.getCentreX()>cornerX1&&ball.getCentreX()<cornerX4){
+            return 2;
+        }else if (ball.getCentreY()>cornerY1&&ball.getCentreY()<cornerY4){
+            return 1;
+        } else return 3;
 
     }
 
 
+    /**
+     *
+     * @return true if there is a wall
+     */
+    //TODO should return wall number
     private boolean checkWalls(){
         if(ball.getCentreX()-BALL_RADIUS<=0) return true;
         if(ball.getCentreY()-BALL_RADIUS<=0) return true;
@@ -160,9 +219,11 @@ public class Main extends GraphicsProgram {
         return false;
     }
 
-    //1-left/right
-    //2-up
-    //0-bottom
+    /**
+     *
+     * @return 1 for left and right wall, 2 for upper wall and 0 for bottom wall
+     */
+    //TODO delete this method or call it in ckeckWalls
     private int wallNumber(){
         if(ball.getCentreX()-BALL_RADIUS<=0) return 1;
         if(ball.getCentreY()-BALL_RADIUS<=0) return 2;
@@ -173,25 +234,20 @@ public class Main extends GraphicsProgram {
     }
 
 
-
+    /**
+     *
+     * @return brick if there is a collision, else return null;
+     */
+    //TODO more accuracy, don`t return a paddle
     private Brick getCollidingObject(){
         for (int i =0;i<360;i++){
             double ballCentreX = ball.getCentreX()+x/2;
             double ballVectorX = (BALL_RADIUS)*GMath.cosDegrees(i);
             double ballCentreY =ball.getCentreY()+y/2;
             double ballVectorY = (BALL_RADIUS)*GMath.sinDegrees(i);
-            double  kx = 0;
-            double  ky = 0;
 
             GObject object = getElementAt(ballCentreX+ballVectorX,ballCentreY+ballVectorY);
             if (object instanceof Brick){
-                System.out.println(i);
-                System.out.println(ballCentreX);
-                System.out.println(ballCentreY);
-                System.out.println(ballVectorX);
-                System.out.println(ballVectorY);
-                System.out.println(ballCentreX+ballVectorX+kx);
-                System.out.println(ballCentreY+ballVectorY+ky);
                 System.out.println(object);
                 Brick brick = (Brick) object;
                 brick.setCollisionX(ballCentreX+ballVectorX);
@@ -201,7 +257,4 @@ public class Main extends GraphicsProgram {
         }
        return null;
     }
-
-
-
 }
