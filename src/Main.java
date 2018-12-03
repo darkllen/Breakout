@@ -89,29 +89,34 @@ public class Main extends GraphicsProgram {
                 try{
                     paddleMove();
                 }catch (Exception e){
-                    System.out.println(e);
                     paddle.move(prev,0);
+                    paddle.setCentreX(paddle.getCentreX()+prev);
                 }
 
-                Brick object = getCollidingObject();
+                GObject object = getCollidingObject();
                 //if there is collision with brick
                 if (object!=null){
 
                     //TODO don`t forget to delete this pause after debugging
                     //pause for debugging(
-                    pause(500);
+                  //  pause(500);
 
-                    switch (jumpSide(object)){
-                        case 1:
-                            x=-x;
-                            break;
-                        case 2:
-                            y=-y;
-                            break;
-                        case 3:
-                            x=-x;
-                            y=-y;
+                    if (object instanceof Brick){
+                        switch (jumpSide((Brick) object)){
+                            case 1:
+                                x=-x;
+                                break;
+                            case 2:
+                                y=-y;
+                                break;
+                            case 3:
+                                x=-x;
+                                y=-y;
+                        }
+                    } else {
+                        y=-y;
                     }
+
                     //TODO fix this if, it should be check in getCollision method
                     //fix it, someone, too
                     //check if brick isn`t a paddle
@@ -157,15 +162,24 @@ public class Main extends GraphicsProgram {
      * move paddle with some speed to the current cursor position
      */
     public void paddleMove(){
-        if (getMousePosition().x>paddle.getCentreX()){
-            paddle.move(paddleSpeed,0);
-            paddle.setCentreX(paddle.getCentreX()+paddleSpeed);
-            prev = paddleSpeed;
-        } else if (getMousePosition().x<paddle.getCentreX()){
-            paddle.move(-paddleSpeed,0);
-            paddle.setCentreX(paddle.getCentreX()-paddleSpeed);
-            prev = -paddleSpeed;
+        if (paddle.getX()>0&&paddle.getX()+paddle.getWidth()<WIDTH){
+            if (getMousePosition().x>paddle.getCentreX()){
+                paddle.move(paddleSpeed,0);
+                paddle.setCentreX(paddle.getCentreX()+paddleSpeed);
+                prev = paddleSpeed;
+            } else if (getMousePosition().x<paddle.getCentreX()){
+                paddle.move(-paddleSpeed,0);
+                paddle.setCentreX(paddle.getCentreX()-paddleSpeed);
+                prev = -paddleSpeed;
+            }
+        }else if (paddle.getX()<0){
+            paddle.move(0.1,0);
+            paddle.setCentreX(paddle.getCentreX()+0.1);
+        }else {
+            paddle.move(-0.1,0);
+            paddle.setCentreX(paddle.getCentreX()-0.1);
         }
+
     }
 
     /**
@@ -249,8 +263,8 @@ public class Main extends GraphicsProgram {
      * @return brick if there is a collision, else return null;
      */
     //TODO more accuracy, don`t return a paddle
-    private Brick getCollidingObject(){
-        for (int i =0;i<360;i++){
+    private GObject getCollidingObject(){
+        for (int i =0;i<180;i=i+2){
             double ballCentreX = ball.getCentreX()+x/2;
             double ballVectorX = (BALL_RADIUS)*GMath.cosDegrees(i);
             double ballCentreY =ball.getCentreY()+y/2;
@@ -263,6 +277,8 @@ public class Main extends GraphicsProgram {
                 brick.setCollisionX(ballCentreX+ballVectorX);
                 brick.setCollisionY(ballCentreY+ballVectorY);
                 return brick;
+            } else if (object instanceof GPaddle){
+                return object;
             }
         }
        return null;
