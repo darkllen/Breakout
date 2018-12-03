@@ -1,6 +1,5 @@
 import acm.graphics.GMath;
 import acm.graphics.GObject;
-import acm.graphics.GRect;
 import acm.program.GraphicsProgram;
 import java.awt.event.*;
 
@@ -188,22 +187,6 @@ public class Main extends GraphicsProgram {
         isStart=true;
     }
 
-
-    /**
-     * Move paddle to the coordinates of mouse (speed is the same as mouse speed)
-     *
-     * @param e
-     */
-/*    public void mouseMoved(MouseEvent e) {
-        if (isStart){
-            while(e.getX()>paddle.getX()+PADDLE_WIDTH/2){
-                if(paddle.getX()+PADDLE_WIDTH<WIDTH) {
-                    paddle.move(speed,0);
-                }else {paddle.move(-speed,0);return;}}
-            while(e.getX()<paddle.getX()+PADDLE_WIDTH/2){
-                if(paddle.getX()>0) paddle.move(-speed,0);else{ paddle.move(speed,0);return;}}
-        }
-        }*/
 
     /**
      *
