@@ -52,9 +52,10 @@ public class Main extends GraphicsProgram {
 
     //pause between next move (less amount is faster speed)
     private static final double speed = 0.01;
+    private static final double paddleSpeed = 1;
 
     Ball ball;
-    GRect paddle;
+    GPaddle paddle;
     boolean isStart = false;
 
     /**
@@ -83,6 +84,12 @@ public class Main extends GraphicsProgram {
 
             //checking for bricks and walls collision, changing speed according to those collisions
             while (true){
+
+                try{
+                    paddleMove();
+                }catch (Exception e){
+                    System.out.println(e);
+                }
 
                 Brick object = getCollidingObject();
                 //if there is collision with brick
@@ -145,11 +152,26 @@ public class Main extends GraphicsProgram {
 
 
     /**
+     * move paddle with some speed to the current cursor position
+     */
+    public void paddleMove(){
+        if (getMousePosition().x>paddle.getCentreX()){
+            paddle.move(paddleSpeed,0);
+            paddle.setCentreX(paddle.getCentreX()+paddleSpeed);
+        } else if (getMousePosition().x<paddle.getCentreX()){
+            paddle.move(-paddleSpeed,0);
+            paddle.setCentreX(paddle.getCentreX()-paddleSpeed);
+        }
+    }
+
+    /**
      * create start bricks, paddle and ball
      */
     public void setup(){
         this.setSize(WIDTH,HEIGHT);
-        paddle= GPaddle.createPaddle(WIDTH/2-PADDLE_WIDTH/2, HEIGHT-PADDLE_Y_OFFSET-PADDLE_HEIGHT, PADDLE_WIDTH, PADDLE_HEIGHT,this);
+        GPaddle pad = new GPaddle(WIDTH/2-PADDLE_WIDTH/2, HEIGHT-PADDLE_Y_OFFSET-PADDLE_HEIGHT, PADDLE_WIDTH, PADDLE_HEIGHT,this);
+        paddle= pad;
+        add(paddle);
         Brick.createBricks(NBRICKS_PER_ROW,NBRICK_ROWS,BRICK_SEP,BRICK_WIDTH,BRICK_HEIGHT,BRICK_Y_OFFSET,this);
         ball =new Ball(BALL_RADIUS, WIDTH/2, HEIGHT/2);
         add(ball);
@@ -172,8 +194,7 @@ public class Main extends GraphicsProgram {
      *
      * @param e
      */
-    //TODO give a possibility to change paddle speed
-    public void mouseMoved(MouseEvent e) {
+/*    public void mouseMoved(MouseEvent e) {
         if (isStart){
             while(e.getX()>paddle.getX()+PADDLE_WIDTH/2){
                 if(paddle.getX()+PADDLE_WIDTH<WIDTH) {
@@ -182,7 +203,7 @@ public class Main extends GraphicsProgram {
             while(e.getX()<paddle.getX()+PADDLE_WIDTH/2){
                 if(paddle.getX()>0) paddle.move(-speed,0);else{ paddle.move(speed,0);return;}}
         }
-        }
+        }*/
 
     /**
      *
@@ -204,6 +225,7 @@ public class Main extends GraphicsProgram {
         } else return 3;
 
     }
+
 
 
     /**
