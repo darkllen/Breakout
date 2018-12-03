@@ -53,6 +53,8 @@ public class Main extends GraphicsProgram {
     private static final double speed = 0.01;
     private static final double paddleSpeed = 1;
 
+    double prev = 0;
+
     Ball ball;
     GPaddle paddle;
     boolean isStart = false;
@@ -88,6 +90,7 @@ public class Main extends GraphicsProgram {
                     paddleMove();
                 }catch (Exception e){
                     System.out.println(e);
+                    paddle.move(prev,0);
                 }
 
                 Brick object = getCollidingObject();
@@ -157,9 +160,11 @@ public class Main extends GraphicsProgram {
         if (getMousePosition().x>paddle.getCentreX()){
             paddle.move(paddleSpeed,0);
             paddle.setCentreX(paddle.getCentreX()+paddleSpeed);
+            prev = paddleSpeed;
         } else if (getMousePosition().x<paddle.getCentreX()){
             paddle.move(-paddleSpeed,0);
             paddle.setCentreX(paddle.getCentreX()-paddleSpeed);
+            prev = -paddleSpeed;
         }
     }
 
