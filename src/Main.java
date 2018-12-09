@@ -11,7 +11,7 @@ public class Main extends GraphicsProgram {
 
     /** Width and height of application window in pixels */
     public static final int APPLICATION_WIDTH = 600;
-    public static final int APPLICATION_HEIGHT = 850;
+    public static final int APPLICATION_HEIGHT = 650;
 
     /** Dimensions of game board (usually the same) */
     private static final int WIDTH = APPLICATION_WIDTH;
@@ -28,7 +28,7 @@ public class Main extends GraphicsProgram {
     private static final int NBRICKS_PER_ROW = 10;
 
     /** Number of rows of bricks */
-    private static final int NBRICK_ROWS = 10;
+    private static final int NBRICK_ROWS = 1;
 
     /** Separation between bricks */
     private static final int BRICK_SEP = 4;
@@ -44,7 +44,7 @@ public class Main extends GraphicsProgram {
     private static final int BALL_RADIUS = 10;
 
     /** Offset of the top brick row from the top */
-    private static final int BRICK_Y_OFFSET = 70;
+    private static final int BRICK_Y_OFFSET = 120;
 
     /** Number of turns */
     private int NTURNS = 3;
@@ -53,10 +53,17 @@ public class Main extends GraphicsProgram {
     private static final double speed = 0.1;
     private static final double paddleSpeed = 2;
 
+    //points for 1 brick
+    private static final int POINTS_FOR_BRICK=1;
+
+    //table height
+    private static final int TABLE_HEIGHT=BRICK_Y_OFFSET-50;
+
     double prev = 0;
 
     Ball ball;
     GPaddle paddle;
+    ScoreTable table;
     boolean isStart = false;
 
     /**
@@ -212,6 +219,10 @@ public class Main extends GraphicsProgram {
         ball =new Ball(BALL_RADIUS, WIDTH/2, HEIGHT/2);
         add(ball);
 
+        table= new ScoreTable(WIDTH,TABLE_HEIGHT,NTURNS);
+        add(table);
+
+
     }
 
     /**
@@ -269,7 +280,7 @@ public class Main extends GraphicsProgram {
             paddle.tr=true;
             return true;
         }
-        if(ball.getCentreY()-BALL_RADIUS<=0) {
+        if(ball.getCentreY()-BALL_RADIUS<=TABLE_HEIGHT) {
             paddle.tr=true;
             return true;
         }
@@ -291,7 +302,7 @@ public class Main extends GraphicsProgram {
     //TODO delete this method or call it in ckeckWalls
     private int wallNumber(){
         if(ball.getCentreX()-BALL_RADIUS<=0) return 1;
-        if(ball.getCentreY()-BALL_RADIUS<=0) return 2;
+        if(ball.getCentreY()-BALL_RADIUS<=TABLE_HEIGHT) return 2;
         if(ball.getCentreX()+BALL_RADIUS+BALL_RADIUS>=WIDTH)return 1;
         if(ball.getCentreY()+BALL_RADIUS+BALL_RADIUS>=HEIGHT)return 0;
         return 0;
