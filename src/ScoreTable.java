@@ -36,6 +36,9 @@ public class ScoreTable extends GCompound{
 
     }
 
+    /**
+     * add a certain amount of live-balls equal lives
+     */
     private void addLives() {
         int x=width-LIVES_BALLS_SEP-LIVES_BALLS_RADIUS*2;
         int y=height/2-LIVES_BALLS_RADIUS;
@@ -50,9 +53,10 @@ public class ScoreTable extends GCompound{
 
     }
 
+    /**
+     * remove the last live-ball
+     */
     public void removeLive(){
-
-       // if(getElementAt(width-(LIVES_BALLS_SEP+LIVES_BALLS_RADIUS)*lives+1,height/2-LIVES_BALLS_RADIUS/2)==GOval)
             remove(getElementAt(width-(LIVES_BALLS_SEP+LIVES_BALLS_RADIUS*2)*lives+LIVES_BALLS_RADIUS,height/2));
 
     }
@@ -69,6 +73,9 @@ public class ScoreTable extends GCompound{
         add(levelLabel);
     }
 
+    /**
+     * increase level by 1
+     */
     public void plusLevel(){
         level++;
         remove(levelLabel);
@@ -85,6 +92,10 @@ public class ScoreTable extends GCompound{
         this.lives=lives;
         addLives();
     }
+
+    /**
+     * reduce lives by 1
+     */
     public void minusLives(){
         removeLive();
         lives--;

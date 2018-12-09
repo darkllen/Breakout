@@ -8,6 +8,7 @@ public class Main extends GraphicsProgram {
     //changing ball coordinates for each move
     double x=1;
     double y=1;
+    int score=0;
 
     /** Width and height of application window in pixels */
     public static final int APPLICATION_WIDTH = 600;
@@ -119,6 +120,8 @@ public class Main extends GraphicsProgram {
                     pause(500);
 
                     if (object instanceof Brick){
+                        score+=POINTS_FOR_BRICK;
+                        table.setScore(score);
                         switch (jumpSide((Brick) object)){
                             case 1:
                                 x=-x;
@@ -129,6 +132,7 @@ public class Main extends GraphicsProgram {
                             case 3:
                                 x=-x;
                                 y=-y;
+
                         }
                     } else {
                        // paddle.tr = false;
@@ -156,11 +160,13 @@ public class Main extends GraphicsProgram {
                         y=-y;
                     } else
                     if (wallNumber()==0){
-                        if (NTURNS==0){
+                        if (NTURNS==1){
+                            table.minusLives();
                             return;
                         }else {
                             setSpeed();
                             NTURNS--;
+                            table.minusLives();
                         }
                         ball.setLocation(WIDTH/2,HEIGHT/2);
                         break;
