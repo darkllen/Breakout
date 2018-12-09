@@ -6,6 +6,7 @@ public class GPaddle extends GRect {
 
   private   double centreX;
    private   double centreY;
+   public boolean tr = true;
 
 
     public GPaddle(double x, double y, double width, double height, Main main) {

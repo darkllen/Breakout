@@ -89,6 +89,7 @@ public class Main extends GraphicsProgram {
                 try{
                     paddleMove();
                 }catch (Exception e){
+                    pause(1);
                     paddle.move(prev,0);
                     paddle.setCentreX(paddle.getCentreX()+prev);
                 }
@@ -99,7 +100,7 @@ public class Main extends GraphicsProgram {
 
                     //TODO don`t forget to delete this pause after debugging
                     //pause for debugging(
-                  //  pause(500);
+                    pause(500);
 
                     if (object instanceof Brick){
                         switch (jumpSide((Brick) object)){
@@ -114,7 +115,12 @@ public class Main extends GraphicsProgram {
                                 y=-y;
                         }
                     } else {
-                        y=-y;
+                       // paddle.tr = false;
+                        if (paddle.tr==true){
+                            paddle.tr=false;
+                            y=-y;
+                        }
+
                     }
 
                     //TODO fix this if, it should be check in getCollision method
@@ -236,10 +242,22 @@ public class Main extends GraphicsProgram {
      */
     //TODO should return wall number
     private boolean checkWalls(){
-        if(ball.getCentreX()-BALL_RADIUS<=0) return true;
-        if(ball.getCentreY()-BALL_RADIUS<=0) return true;
-        if(ball.getCentreX()+2*BALL_RADIUS>WIDTH)return true;
-        if(ball.getCentreY()+2*BALL_RADIUS>=HEIGHT)return true;
+        if(ball.getCentreX()-BALL_RADIUS<=0){
+            paddle.tr=true;
+            return true;
+        }
+        if(ball.getCentreY()-BALL_RADIUS<=0) {
+            paddle.tr=true;
+            return true;
+        }
+        if(ball.getCentreX()+2*BALL_RADIUS>WIDTH){
+           paddle.tr=true;
+            return true;
+        }
+        if(ball.getCentreY()+2*BALL_RADIUS>=HEIGHT){
+           paddle.tr=true;
+            return true;
+        }
         return false;
     }
 
@@ -264,11 +282,11 @@ public class Main extends GraphicsProgram {
      */
     //TODO more accuracy, don`t return a paddle
     private GObject getCollidingObject(){
-        for (int i =0;i<180;i=i+2){
+        for (int i =0;i<360;i=i+2){
             double ballCentreX = ball.getCentreX()+x/2;
-            double ballVectorX = (BALL_RADIUS)*GMath.cosDegrees(i);
+            double ballVectorX = (BALL_RADIUS+0.1)*GMath.cosDegrees(i);
             double ballCentreY =ball.getCentreY()+y/2;
-            double ballVectorY = (BALL_RADIUS)*GMath.sinDegrees(i);
+            double ballVectorY = (BALL_RADIUS+0.1)*GMath.sinDegrees(i);
 
             GObject object = getElementAt(ballCentreX+ballVectorX,ballCentreY+ballVectorY);
             if (object instanceof Brick){
@@ -278,7 +296,11 @@ public class Main extends GraphicsProgram {
                 brick.setCollisionY(ballCentreY+ballVectorY);
                 return brick;
             } else if (object instanceof GPaddle){
-                return object;
+
+
+                    return object;
+
+
             }
         }
        return null;
