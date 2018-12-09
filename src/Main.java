@@ -145,7 +145,7 @@ public class Main extends GraphicsProgram {
                     if (wallNumber()==1){
                         x=-x;
                     }
-                    if (wallNumber()==2 || wallNumber()==0){
+                    if (wallNumber()==2){
                         y=-y;
                     } else
                     if (wallNumber()==0){
