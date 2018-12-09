@@ -50,7 +50,7 @@ public class Main extends GraphicsProgram {
     private int NTURNS = 3;
 
     //pause between next move (less amount is faster speed)
-    private static final double speed = 0.01;
+    private static final double speed = 0.1;
     private static final double paddleSpeed = 2;
 
     double prev = 0;
@@ -65,13 +65,15 @@ public class Main extends GraphicsProgram {
 
     //TODO change speed for random
     public void setSpeed(){
-        y=0.1;
-        x=0.1;
+        //Math.sin(Math.toRadians(Math.PI/2))+Math.sin(Math.toRadians(Math.PI/4))
+        y = Math.random()*1.5+0.5;
+        x=Math.sqrt(2-y*y);
     }
 
     public void run(){
         addMouseListeners();
         setup();
+        setSpeed();
 
         while(true){
             //send ball back to avoid problem with ball returning
@@ -189,9 +191,11 @@ public class Main extends GraphicsProgram {
         }else if (paddle.getX()<0){
             paddle.move(0.1,0);
             paddle.setCentreX(paddle.getCentreX()+0.1);
+            pause(0.1);
         }else {
             paddle.move(-0.1,0);
             paddle.setCentreX(paddle.getCentreX()-0.1);
+            pause(0.1);
         }
 
     }
