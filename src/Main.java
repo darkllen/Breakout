@@ -66,8 +66,8 @@ public class Main extends GraphicsProgram {
     //TODO change speed for random
     public void setSpeed(){
         //Math.sin(Math.toRadians(Math.PI/2))+Math.sin(Math.toRadians(Math.PI/4))
-        y = Math.random()*1.5+0.5;
-        x=Math.sqrt(2-y*y);
+        y = 1;
+        x=1;
     }
 
     public void run(){
@@ -248,11 +248,11 @@ public class Main extends GraphicsProgram {
             double x = Math.abs(centreX-ball.getCentreX());
             double y = Math.abs(centreY-ball.getCentreY());
             if (x>y){
-                return 1;
-            }else if (x<y){
                 return 2;
+            }else if (x<y){
+                return 1;
             }else
-            return 3;
+            return 2;
         }
 
     }
