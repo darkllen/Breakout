@@ -51,7 +51,7 @@ public class Main extends GraphicsProgram {
 
     //pause between next move (less amount is faster speed)
     private static final double speed = 0.01;
-    private static final double paddleSpeed = 1;
+    private static final double paddleSpeed = 2;
 
     double prev = 0;
 
@@ -83,16 +83,23 @@ public class Main extends GraphicsProgram {
                System.out.println();
             }
 
+            Thread tr = new Thread(){
+                @Override
+                public void run() {
+                    try{
+                        paddleMove();
+                    }catch (Exception e){
+                        paddle.move(prev,0);
+                        paddle.setCentreX(paddle.getCentreX()+prev);
+                    }
+                }
+
+            };
+
             //checking for bricks and walls collision, changing speed according to those collisions
             while (true){
+                tr.run();
 
-                try{
-                    paddleMove();
-                }catch (Exception e){
-                    pause(1);
-                    paddle.move(prev,0);
-                    paddle.setCentreX(paddle.getCentreX()+prev);
-                }
 
                 GObject object = getCollidingObject();
                 //if there is collision with brick
@@ -100,7 +107,7 @@ public class Main extends GraphicsProgram {
 
                     //TODO don`t forget to delete this pause after debugging
                     //pause for debugging(
-                    pause(500);
+                 //   pause(500);
 
                     if (object instanceof Brick){
                         switch (jumpSide((Brick) object)){
@@ -153,6 +160,7 @@ public class Main extends GraphicsProgram {
                 ball.moveBall(x,y);
                 //final pause to regulate speed of the game
                 pause(speed);
+
             }
             //create new ball if previous is lost
             isStart=false;
@@ -294,13 +302,10 @@ public class Main extends GraphicsProgram {
                 Brick brick = (Brick) object;
                 brick.setCollisionX(ballCentreX+ballVectorX);
                 brick.setCollisionY(ballCentreY+ballVectorY);
+                paddle.tr=true;
                 return brick;
             } else if (object instanceof GPaddle){
-
-
                     return object;
-
-
             }
         }
        return null;
