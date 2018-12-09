@@ -10,8 +10,8 @@ public class Main extends GraphicsProgram {
     double y=1;
 
     /** Width and height of application window in pixels */
-    public static final int APPLICATION_WIDTH = 650;
-    public static final int APPLICATION_HEIGHT = 800;
+    public static final int APPLICATION_WIDTH = 600;
+    public static final int APPLICATION_HEIGHT = 850;
 
     /** Dimensions of game board (usually the same) */
     private static final int WIDTH = APPLICATION_WIDTH;
