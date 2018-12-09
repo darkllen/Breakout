@@ -38,7 +38,7 @@ public class Main extends GraphicsProgram {
             (WIDTH - (NBRICKS_PER_ROW - 1) * BRICK_SEP) / NBRICKS_PER_ROW;
 
     /** Height of a brick */
-    private static final int BRICK_HEIGHT = 28;
+    private static final int BRICK_HEIGHT = 8;
 
     /** Radius of the ball in pixels */
     private static final int BALL_RADIUS = 10;
@@ -109,7 +109,7 @@ public class Main extends GraphicsProgram {
 
                     //TODO don`t forget to delete this pause after debugging
                     //pause for debugging(
-                 //   pause(500);
+                    pause(500);
 
                     if (object instanceof Brick){
                         switch (jumpSide((Brick) object)){
@@ -232,6 +232,8 @@ public class Main extends GraphicsProgram {
      */
     //TODO more accuracy
     private int jumpSide(Brick object){
+        double centreX = object.getCentreX();
+        double centreY = object.getCentreY();
 
         double cornerX1 = object.getX();
         double cornerY1 = object.getY();
@@ -242,7 +244,16 @@ public class Main extends GraphicsProgram {
             return 2;
         }else if (ball.getCentreY()>cornerY1&&ball.getCentreY()<cornerY4){
             return 1;
-        } else return 3;
+        } else {
+            double x = Math.abs(centreX-ball.getCentreX());
+            double y = Math.abs(centreY-ball.getCentreY());
+            if (x>y){
+                return 1;
+            }else if (x<y){
+                return 2;
+            }else
+            return 3;
+        }
 
     }
 
