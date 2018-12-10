@@ -22,7 +22,7 @@ public class Main extends GraphicsProgram {
     private static final int HEIGHT = APPLICATION_HEIGHT;
 
     /** Dimensions of the paddle */
-    private static final int PADDLE_WIDTH = 60;
+    private static final double PADDLE_WIDTH = 60;
     private static final int PADDLE_HEIGHT = 10;
 
     /** Offset of the paddle up from the bottom */
@@ -133,6 +133,12 @@ public class Main extends GraphicsProgram {
                   //  pause(500);
 
                     if (object instanceof Brick){
+                        if (((Brick) object).getFillColor()==Color.YELLOW){
+                            paddle.setSize(PADDLE_WIDTH/100*70, paddle.getHeight());
+                        }
+                        if (((Brick) object).getFillColor()==Color.CYAN){
+                            paddle.setSize(PADDLE_WIDTH/100*130, paddle.getHeight());
+                        }
                         if (((Brick) object).getFillColor()== Color.MAGENTA){
                             score+=2*POINTS_FOR_BRICK*level;
                         }
@@ -170,10 +176,12 @@ public class Main extends GraphicsProgram {
                     //TODO fix this if, it should be check in getCollision method
                     //fix it, someone, too
                     //check if brick isn`t a paddle
-                    if (object.getWidth()!=PADDLE_WIDTH){
+                    if (object.getWidth()!=paddle.getWidth()){
                         remove(object);
                         Brick.bricksNumber--;
                         if (Brick.bricksNumber==0){
+                            score+=score/4;
+                            table.setScore(score);
                             level++;
                             table.setLevel(level);
                             Brick.createBricks(NBRICKS_PER_ROW,NBRICK_ROWS,BRICK_SEP,BRICK_WIDTH,BRICK_HEIGHT,BRICK_Y_OFFSET,this);
@@ -216,6 +224,7 @@ public class Main extends GraphicsProgram {
             isStart=false;
             remove(ball);
             ball =new Ball(BALL_RADIUS, WIDTH/2, HEIGHT/2);
+            paddle.setSize(PADDLE_WIDTH,PADDLE_HEIGHT);
             add(ball);
         }
 
@@ -311,9 +320,9 @@ public class Main extends GraphicsProgram {
             if (x>y){
                 return 2;
             }else if (x<y){
-                return 1;
+                return 2;
             }else
-            return 2;
+            return 1;
         }
 
     }
