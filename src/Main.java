@@ -93,7 +93,7 @@ public class Main extends GraphicsProgram {
                System.out.println();
             }
 
-            Thread tr = new Thread(){
+      /*      Thread tr = new Thread(){
                 @Override
                 public void run() {
                     try{
@@ -104,11 +104,11 @@ public class Main extends GraphicsProgram {
                     }
                 }
 
-            };
+            };*/
 
             //checking for bricks and walls collision, changing speed according to those collisions
             while (true){
-                tr.run();
+             /*   tr.run();*/
 
 
                 GObject object = getCollidingObject();
@@ -239,6 +239,10 @@ public class Main extends GraphicsProgram {
     //TODO waitForClick instead of this
     public void mouseClicked(MouseEvent e){
         isStart=true;
+    }
+    public void mouseMoved(MouseEvent e){
+        if (e.getX()>paddle.getWidth()/2&&e.getX()<WIDTH-paddle.getWidth()/2)
+        paddle.move(e.getX()-(paddle.getX()+paddle.getWidth()/2),0);
     }
 
 
