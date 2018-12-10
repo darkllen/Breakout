@@ -2,6 +2,8 @@ import acm.graphics.GRect;
 import java.awt.*;
 
 public class Brick extends GRect {
+
+    public static int bricksNumber;
     //bricks colors
     static Color y0 = Color.RED;
     static Color y1 = Color.ORANGE;
@@ -55,6 +57,7 @@ public class Brick extends GRect {
                 gRect.setFilled(true);
                 gRect.setFillColor(color);
                 graphicsProgram.add(gRect);
+                bricksNumber++;
                 x+=brickWidth+breakSep;
             }
             x=0;

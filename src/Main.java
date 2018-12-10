@@ -29,7 +29,7 @@ public class Main extends GraphicsProgram {
     private static final int NBRICKS_PER_ROW = 10;
 
     /** Number of rows of bricks */
-    private static final int NBRICK_ROWS = 1;
+    private static final int NBRICK_ROWS = 5;
 
     /** Separation between bricks */
     private static final int BRICK_SEP = 4;
@@ -67,6 +67,9 @@ public class Main extends GraphicsProgram {
     ScoreTable table;
     boolean isStart = false;
 
+    int level = 1;
+
+
     /**
      * change x and y changes for each move
      */
@@ -75,14 +78,14 @@ public class Main extends GraphicsProgram {
     public void setSpeed(double lvl){
         lvl = 1+ lvl/10;
         double p = Math.random()*(Math.PI/2) + Math.PI/4;
-        y =lvl* Math.sin(p);
+        y =-lvl* Math.sin(p);
         x=lvl* Math.cos(p);
     }
 
     public void run(){
         addMouseListeners();
         setup();
-        setSpeed(1);
+        setSpeed(level);
 
         while(true){
             //send ball back to avoid problem with ball returning
@@ -118,10 +121,10 @@ public class Main extends GraphicsProgram {
 
                     //TODO don`t forget to delete this pause after debugging
                     //pause for debugging(
-                    pause(500);
+                  //  pause(500);
 
                     if (object instanceof Brick){
-                        score+=POINTS_FOR_BRICK;
+                        score+=POINTS_FOR_BRICK*level;
                         table.setScore(score);
                         switch (jumpSide((Brick) object)){
                             case 1:
@@ -149,6 +152,13 @@ public class Main extends GraphicsProgram {
                     //check if brick isn`t a paddle
                     if (object.getWidth()!=PADDLE_WIDTH){
                         remove(object);
+                        Brick.bricksNumber--;
+                        if (Brick.bricksNumber==0){
+                            level++;
+                            table.setLevel(level);
+                            Brick.createBricks(NBRICKS_PER_ROW,NBRICK_ROWS,BRICK_SEP,BRICK_WIDTH,BRICK_HEIGHT,BRICK_Y_OFFSET,this);
+                            break;
+                        }
                     }
                 }
                 //checking for walls collision
@@ -163,9 +173,13 @@ public class Main extends GraphicsProgram {
                     if (wallNumber()==0){
                         if (NTURNS==1){
                             table.minusLives();
+                            remove(ball);
+
+                            priintLoose();
+
                             return;
                         }else {
-                            setSpeed(5);
+                            setSpeed(level);
                             NTURNS--;
                             table.minusLives();
                         }
@@ -212,6 +226,11 @@ public class Main extends GraphicsProgram {
             pause(0.1);
         }
 
+    }
+
+
+    public void priintLoose(){
+        add(ACMMethods.writeText("YOU LOOSE", WIDTH/2, HEIGHT/2, 26));
     }
 
     /**
@@ -327,7 +346,7 @@ public class Main extends GraphicsProgram {
      */
     //TODO more accuracy, don`t return a paddle
     private GObject getCollidingObject(){
-        for (int i =0;i<360;i=i+2){
+        for (int i =0;i<360;i=i+10){
             double ballCentreX = ball.getCentreX()+x/2;
             double ballVectorX = (BALL_RADIUS+0.1)*GMath.cosDegrees(i);
             double ballCentreY =ball.getCentreY()+y/2;
