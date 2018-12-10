@@ -5,11 +5,6 @@ public class Brick extends GRect {
 
     public static int bricksNumber;
     //bricks colors
-    static Color y0 = Color.RED;
-    static Color y1 = Color.ORANGE;
-    static Color y2 = Color.YELLOW;
-    static Color y3 = Color.GREEN;
-    static Color y4 = Color.CYAN;
 
     //points where collision occurs (setting when collision happened)
     private double collisionX;
@@ -46,13 +41,18 @@ public class Brick extends GRect {
     public static void createBricks(int numberBricksPerRow, int numberOfRows, int breakSep, int brickWidth, int brickHeigth, int brickYOffset, Main graphicsProgram){
         int x = 0;
         int y = brickYOffset;
-        Color color = y0;
+        Color color;
         for (int i=0;i<numberOfRows;i++){
-            if (i>1)color=y1;
-            if (i>3)color=y2;
-            if (i>5)color=y3;
-            if (i>7)color=y4;
+
+
             for (int j=0;j<numberBricksPerRow;j++){
+
+                int  colorNum = (int) (Math.random()*101);
+                if (colorNum>98)color=Color.GREEN;
+                else if (colorNum>94)color = Color.RED;
+                else if (colorNum>85)color = Color.MAGENTA;
+                else color = Color.BLACK;
+
                 Brick gRect = new Brick(x,y,brickWidth,brickHeigth);
                 gRect.setFilled(true);
                 gRect.setFillColor(color);

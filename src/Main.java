@@ -2,6 +2,8 @@ import acm.graphics.GCompound;
 import acm.graphics.GMath;
 import acm.graphics.GObject;
 import acm.program.GraphicsProgram;
+
+import java.awt.*;
 import java.awt.event.*;
 
 public class Main extends GraphicsProgram {
@@ -80,6 +82,9 @@ public class Main extends GraphicsProgram {
     public void setSpeed(double lvl){
         lvl = 1+ lvl/10;
         double p = Math.random()*(Math.PI/2) + Math.PI/4;
+        while(Math.sin(p)>=Math.sin(Math.PI/2.2)){
+            p = Math.random()*(Math.PI/2) + Math.PI/4;
+        }
         y =-lvl* Math.sin(p);
         x=lvl* Math.cos(p);
     }
@@ -128,6 +133,17 @@ public class Main extends GraphicsProgram {
                   //  pause(500);
 
                     if (object instanceof Brick){
+                        if (((Brick) object).getFillColor()== Color.MAGENTA){
+                            score+=2*POINTS_FOR_BRICK*level;
+                        }
+                        if (((Brick) object).getFillColor()==Color.GREEN){
+                            NTURNS++;
+                            table.setLives(table.getLives()+1);
+                        }
+                        if (((Brick) object).getFillColor()==Color.RED){
+                            x = x*1.2;
+                            y=y*1.2;
+                        }
                         score+=POINTS_FOR_BRICK*level;
                         table.setScore(score);
                         switch (jumpSide((Brick) object)){
