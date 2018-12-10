@@ -33,16 +33,20 @@ public class Menu extends GCompound {
         add(H_S);
 
         GLabel start_l=new GLabel("START");
-        add(start_l,WIDTH/2-start_l.getWidth()/2,rect_height*2-rect_height/2+start_l.getHeight()/2);
+        start_l.setFont("Algerian-20");
+        add(start_l,WIDTH/2-start_l.getWidth()/2,rect_height*2-rect_height/2+start_l.getHeight()/2   -10);
 
         GLabel options_l=new GLabel("OPTIONS");
-        add(options_l,WIDTH/2-options_l.getWidth()/2,rect_height*4-rect_height/2+options_l.getHeight()/2);
+        options_l.setFont("Algerian-20");
+        add(options_l,WIDTH/2-options_l.getWidth()/2,rect_height*4-rect_height/2+options_l.getHeight()/2 -10);
 
         GLabel exit_l=new GLabel("EXIT");
-        add(exit_l,WIDTH/2-exit_l.getWidth()/2,rect_height*6-rect_height/2+exit_l.getHeight()/2);
+        exit_l.setFont("Algerian-20");
+        add(exit_l,WIDTH/2-exit_l.getWidth()/2,rect_height*6-rect_height/2+exit_l.getHeight()/2 -10);
 
         GLabel H_S_l=new GLabel("HIGH SCORE: "+Main.high_score);
-        add(H_S_l,WIDTH/2-H_S_l.getWidth()/2,rect_height*8-rect_height/2+H_S_l.getHeight()/2);
+        H_S_l.setFont("Algerian-20");
+        add(H_S_l,WIDTH/2-H_S_l.getWidth()/2,rect_height*8-rect_height/2+H_S_l.getHeight()/ 2 -7);
     }
 
 }

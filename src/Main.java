@@ -290,6 +290,8 @@ public class Main extends GraphicsProgram {
 
         table= new ScoreTable(WIDTH,TABLE_HEIGHT,NTURNS);
         add(table);
+
+    
     }
 
     /**
