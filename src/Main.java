@@ -1,3 +1,4 @@
+import acm.graphics.GCompound;
 import acm.graphics.GMath;
 import acm.graphics.GObject;
 import acm.program.GraphicsProgram;
@@ -67,7 +68,6 @@ public class Main extends GraphicsProgram {
     ScoreTable table;
     boolean isStart = false;
 
-    Menu menu = new Menu();
 
     int level = 1;
 
@@ -89,8 +89,7 @@ public class Main extends GraphicsProgram {
         setup();
         setSpeed(level);
 
-       /* menu.create(WIDTH,HEIGHT);
-        add(menu);*/
+
 
         while(true){
             //send ball back to avoid problem with ball returning
