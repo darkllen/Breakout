@@ -89,8 +89,8 @@ public class Main extends GraphicsProgram {
         setup();
         setSpeed(level);
 
-        menu.create(WIDTH,HEIGHT);
-        add(menu);
+       /* menu.create(WIDTH,HEIGHT);
+        add(menu);*/
 
         while(true){
             //send ball back to avoid problem with ball returning
