@@ -67,6 +67,8 @@ public class Main extends GraphicsProgram {
     ScoreTable table;
     boolean isStart = false;
 
+    Menu menu = new Menu();
+
     int level = 1;
 
 
@@ -86,6 +88,9 @@ public class Main extends GraphicsProgram {
         addMouseListeners();
         setup();
         setSpeed(level);
+
+        menu.create(WIDTH,HEIGHT);
+        add(menu);
 
         while(true){
             //send ball back to avoid problem with ball returning
