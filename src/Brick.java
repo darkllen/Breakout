@@ -42,6 +42,7 @@ public class Brick extends GRect {
         int x = 0;
         int y = brickYOffset;
         int yellow=0;
+        int red=0;
         Color color;
         for (int i=0;i<numberOfRows;i++){
 
@@ -50,7 +51,7 @@ public class Brick extends GRect {
 
                 int  colorNum = (int) (Math.random()*101);
                 if (colorNum>98)color=Color.GREEN;
-                else if (colorNum>95)color = Color.RED;
+                else if (colorNum>95)if(red<2){color = Color.RED;red++;}else  color = Color.BLACK;
                 else if (colorNum>90)if(yellow<2){color = Color.YELLOW;yellow++;}else color = Color.BLACK;
                 else if (colorNum>85)color = Color.CYAN;
                 else if (colorNum>75)color = Color.MAGENTA;

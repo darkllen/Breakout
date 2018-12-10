@@ -1,4 +1,5 @@
 import acm.graphics.GCompound;
+import acm.graphics.GImage;
 import acm.graphics.GMath;
 import acm.graphics.GObject;
 import acm.program.GraphicsProgram;
@@ -12,6 +13,7 @@ public class Main extends GraphicsProgram {
     double x=1;
     double y=1;
     int score=0;
+    public static int high_score=0;
 
     /** Width and height of application window in pixels */
     public static final int APPLICATION_WIDTH = 600;
@@ -45,7 +47,7 @@ public class Main extends GraphicsProgram {
     private static final int BRICK_HEIGHT = 8;
 
     /** Radius of the ball in pixels */
-    private static final int BALL_RADIUS = 10;
+    private static final int BALL_RADIUS = 7;
 
     /** Offset of the top brick row from the top */
     private static final int BRICK_Y_OFFSET = 120;
@@ -69,6 +71,7 @@ public class Main extends GraphicsProgram {
     GPaddle paddle;
     ScoreTable table;
     boolean isStart = false;
+    public static GImage background=new GImage("background.jpg");
 
 
     int level = 1;
@@ -90,6 +93,8 @@ public class Main extends GraphicsProgram {
     }
 
     public void run(){
+        this.setSize(WIDTH,HEIGHT);
+       addMenu();
         addMouseListeners();
         setup();
         setSpeed(level);
@@ -99,6 +104,7 @@ public class Main extends GraphicsProgram {
         while(true){
             //send ball back to avoid problem with ball returning
             ball.sendToBack();
+            background.sendToBack();
 
             //TODO if fix is possible
             //fix it someone please
@@ -203,7 +209,7 @@ public class Main extends GraphicsProgram {
                             table.minusLives();
                             remove(ball);
 
-                            priintLoose();
+                            priintLose();
 
                             return;
                         }else {
@@ -230,7 +236,11 @@ public class Main extends GraphicsProgram {
 
     }
 
+    private void addMenu() {
+     Menu menu=new Menu(WIDTH,HEIGHT);
+     add(menu);
 
+    }
     /**
      * move paddle with some speed to the current cursor position
      */
@@ -258,15 +268,19 @@ public class Main extends GraphicsProgram {
     }
 
 
-    public void priintLoose(){
-        add(ACMMethods.writeText("YOU LOOSE", WIDTH/2, HEIGHT/2, 26));
+    public void priintLose(){
+        add(ACMMethods.writeText("YOU LOSE", WIDTH/2, HEIGHT/2, 26));
+        if(high_score<score)
+            high_score=score;
     }
 
     /**
      * create start bricks, paddle and ball
      */
     public void setup(){
-        this.setSize(WIDTH,HEIGHT);
+        background.setSize(WIDTH,HEIGHT-TABLE_HEIGHT);
+        add(background,0,TABLE_HEIGHT);
+
         GPaddle pad = new GPaddle(WIDTH/2-PADDLE_WIDTH/2, HEIGHT-PADDLE_Y_OFFSET-PADDLE_HEIGHT, PADDLE_WIDTH, PADDLE_HEIGHT,this);
         paddle= pad;
         add(paddle);
@@ -276,8 +290,6 @@ public class Main extends GraphicsProgram {
 
         table= new ScoreTable(WIDTH,TABLE_HEIGHT,NTURNS);
         add(table);
-
-
     }
 
     /**

@@ -6,6 +6,7 @@ public class Ball extends GCompound {
     //centre coordinates
     private double centreX;
     private double centreY;
+    Color my_color=new Color(105,0,46);
 
     /**
      * create ball from 360 points and polygon (also 360 points)
@@ -25,7 +26,7 @@ public class Ball extends GCompound {
         this.centreX=centreX;
         this.centreY=centreY;
         polygon.setFilled(true);
-    this.setColor(Color.RED);
+    this.setColor(my_color);
     }
 
     /**
