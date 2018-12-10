@@ -72,7 +72,7 @@ public class Main extends GraphicsProgram {
     ScoreTable table;
     boolean isStart = false;
     public static GImage background=new GImage("background.jpg");
-
+    Menu menu;
 
     int level = 1;
 
@@ -301,6 +301,16 @@ public class Main extends GraphicsProgram {
      */
     //TODO waitForClick instead of this
     public void mouseClicked(MouseEvent e){
+        Object object = menu.getElementAt(e.getX(),e.getY());
+        System.out.println(object);
+        if (object instanceof Label){
+            Label label = (Label) object;
+            if (label.getText().equals("START")){
+                remove(menu);
+                setup();
+                return;
+            }
+        }
         isStart=true;
     }
     public void mouseMoved(MouseEvent e){
