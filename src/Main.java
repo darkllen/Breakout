@@ -72,16 +72,17 @@ public class Main extends GraphicsProgram {
      */
 
     //TODO change speed for random
-    public void setSpeed(){
-        //Math.sin(Math.toRadians(Math.PI/2))+Math.sin(Math.toRadians(Math.PI/4))
-        y = 1;
-        x=1;
+    public void setSpeed(double lvl){
+        lvl = 1+ lvl/10;
+        double p = Math.random()*(Math.PI/2) + Math.PI/4;
+        y =lvl* Math.sin(p);
+        x=lvl* Math.cos(p);
     }
 
     public void run(){
         addMouseListeners();
         setup();
-        setSpeed();
+        setSpeed(1);
 
         while(true){
             //send ball back to avoid problem with ball returning
@@ -164,7 +165,7 @@ public class Main extends GraphicsProgram {
                             table.minusLives();
                             return;
                         }else {
-                            setSpeed();
+                            setSpeed(5);
                             NTURNS--;
                             table.minusLives();
                         }
