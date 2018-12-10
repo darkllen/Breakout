@@ -26,35 +26,35 @@ public class SeOptions extends GCompound {
         Brick2.setFillColor(Color.GREEN);
         Brick2.move(0,HEIGHT/9);
         add(Brick2);
-        add(new GLabel("- REGULAR BRICK",WIDTH/6+BRICK_WIDTH*3/2,(HEIGHT - HEIGHT/9 )/6 +30+HEIGHT/9));
+        add(new GLabel("- LIVE BRICK",WIDTH/6+BRICK_WIDTH*3/2,(HEIGHT - HEIGHT/9 )/6 +30+HEIGHT/9));
 
         GRect Brick3=new GRect(WIDTH/6,(HEIGHT - HEIGHT/9 )/6 +20,BRICK_WIDTH,BRICH_HEIGHT);
         Brick3.setFilled(true);
         Brick3.setFillColor(Color.RED);
         Brick3.move(0,HEIGHT/9*2);
         add(Brick3);
-        add(new GLabel("- REGULAR BRICK",WIDTH/6+BRICK_WIDTH*3/2,(HEIGHT - HEIGHT/9 )/6 +30+HEIGHT/9*2));
+        add(new GLabel("- SPEED BRICK",WIDTH/6+BRICK_WIDTH*3/2,(HEIGHT - HEIGHT/9 )/6 +30+HEIGHT/9*2));
 
         GRect Brick4=new GRect(WIDTH/6,(HEIGHT - HEIGHT/9 )/6 +20,BRICK_WIDTH,BRICH_HEIGHT);
         Brick4.setFilled(true);
         Brick4.setFillColor(Color.YELLOW);
         Brick4.move(0,HEIGHT/9*3);
         add(Brick4);
-        add(new GLabel("- REGULAR BRICK",WIDTH/6+BRICK_WIDTH*3/2,(HEIGHT - HEIGHT/9 )/6 +30+HEIGHT/9*3));
+        add(new GLabel("- SMALL PADDLE BRICK",WIDTH/6+BRICK_WIDTH*3/2,(HEIGHT - HEIGHT/9 )/6 +30+HEIGHT/9*3));
 
         GRect Brick5=new GRect(WIDTH/6,(HEIGHT - HEIGHT/9 )/6 +20,BRICK_WIDTH,BRICH_HEIGHT);
         Brick5.setFilled(true);
         Brick5.setFillColor(Color.CYAN);
         Brick5.move(0,HEIGHT/9*4);
         add(Brick5);
-        add(new GLabel("- REGULAR BRICK",WIDTH/6+BRICK_WIDTH*3/2,(HEIGHT - HEIGHT/9 )/6 +30+HEIGHT/9*4));
+        add(new GLabel("- BIG PADDLE BRICK",WIDTH/6+BRICK_WIDTH*3/2,(HEIGHT - HEIGHT/9 )/6 +30+HEIGHT/9*4));
 
         GRect Brick6=new GRect(WIDTH/6,(HEIGHT - HEIGHT/9 )/6 +20,BRICK_WIDTH,BRICH_HEIGHT);
         Brick6.setFilled(true);
         Brick6.setFillColor(Color.MAGENTA);
         Brick6.move(0,HEIGHT/9*5);
         add(Brick6);
-        add(new GLabel("- REGULAR BRICK",WIDTH/6+BRICK_WIDTH*3/2,(HEIGHT - HEIGHT/9 )/6 +30+HEIGHT/9*5));
+        add(new GLabel("- X3 SCORE BRICK",WIDTH/6+BRICK_WIDTH*3/2,(HEIGHT - HEIGHT/9 )/6 +30+HEIGHT/9*5));
 
 
         GRect exit=new GRect(WIDTH/3,HEIGHT/9*7+20,WIDTH/3,HEIGHT/9);

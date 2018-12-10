@@ -1,7 +1,4 @@
-import acm.graphics.GCompound;
-import acm.graphics.GImage;
-import acm.graphics.GMath;
-import acm.graphics.GObject;
+import acm.graphics.*;
 import acm.program.GraphicsProgram;
 
 import java.awt.*;
@@ -73,6 +70,7 @@ public class Main extends GraphicsProgram {
     boolean isStart = false;
     public static GImage background=new GImage("background.jpg");
     Menu menu;
+    boolean isView = true;
 
     int level = 1;
 
@@ -94,9 +92,10 @@ public class Main extends GraphicsProgram {
 
     public void run(){
         this.setSize(WIDTH,HEIGHT);
-       addMenu();
+
         addMouseListeners();
-       // setup();
+        setup();
+        addMenu();
         setSpeed(level);
 
 
@@ -211,7 +210,19 @@ public class Main extends GraphicsProgram {
 
                             priintLose();
 
-                            return;
+                            waitForClick();
+                            removeAll();
+                            setup();
+                            addMenu();
+                            NTURNS=4;
+                            score=0;
+                            level = 1;
+                            isView=true;
+
+                            table.setScore(score);
+                            table.setLives(NTURNS);
+                            table.setLevel(level);
+                            continue;
                         }else {
                             setSpeed(level);
                             NTURNS--;
@@ -300,18 +311,34 @@ public class Main extends GraphicsProgram {
      * @param e
      */
     //TODO waitForClick instead of this
+    SeOptions options = new SeOptions(WIDTH, HEIGHT, BRICK_WIDTH, BRICK_HEIGHT);
     public void mouseClicked(MouseEvent e){
-        Object object = menu.getElementAt(e.getX(),e.getY());
-        System.out.println(object);
-        if (object instanceof Label){
-            Label label = (Label) object;
-            if (label.getText().equals("START")){
-                remove(menu);
-                setup();
-                return;
-            }
-        }
-        isStart=true;
+        if (getElementAt(e.getX(),e.getY()) instanceof SeOptions){
+            options.setVisible(false);
+        }else
+        if (isView) {
+            Object object = menu.getElementAt(e.getX(), e.getY());
+            System.out.println(object);
+            if (object instanceof GLabel) {
+                GLabel label = (GLabel) object;
+                if (label.getLabel().equals("START")) {
+                    isView = false;
+                    remove(menu);
+                    background = new GImage("background.jpg");
+                    background.setSize(WIDTH, HEIGHT - TABLE_HEIGHT);
+                    add(background, 0, TABLE_HEIGHT);
+                    background.sendToBack();
+                    return;
+                }
+                if (label.getLabel().equals("EXIT")){
+
+                }
+                if (label.getLabel().equals("OPTIONS")){
+                    add(options);
+                }
+            }}
+            isStart = true;
+
     }
     public void mouseMoved(MouseEvent e){
         if (e.getX()>paddle.getWidth()/2&&e.getX()<WIDTH-paddle.getWidth()/2)

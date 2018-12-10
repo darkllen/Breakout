@@ -8,7 +8,7 @@ public class Menu extends GCompound {
     Color my_color=new Color(169,157,212);
     public Menu(int WIDTH,int HEIGHT) {
         Main.background.setSize(WIDTH,HEIGHT);
-        add(Main.background);
+        add(Main.background,0,0);
 
         int rect_height=HEIGHT/9;
         int rect_width=WIDTH/3;
