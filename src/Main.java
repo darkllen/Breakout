@@ -96,7 +96,7 @@ public class Main extends GraphicsProgram {
         this.setSize(WIDTH,HEIGHT);
        addMenu();
         addMouseListeners();
-        setup();
+       // setup();
         setSpeed(level);
 
 
@@ -237,7 +237,7 @@ public class Main extends GraphicsProgram {
     }
 
     private void addMenu() {
-     Menu menu=new Menu(WIDTH,HEIGHT);
+     menu=new Menu(WIDTH,HEIGHT);
      add(menu);
 
     }
