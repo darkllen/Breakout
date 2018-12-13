@@ -9,29 +9,26 @@ public class Main extends GraphicsProgram {
     //changing ball coordinates for each move
     double x=1;
     double y=1;
-    int score=0;
-    public static int high_score=0;
-
     /** Width and height of application window in pixels */
-    public static final int APPLICATION_WIDTH = 600;
-    public static final int APPLICATION_HEIGHT = 650;
+    public static final int APPLICATION_WIDTH = 850;
+    public static final int APPLICATION_HEIGHT = 700;
 
     /** Dimensions of game board (usually the same) */
     private static final int WIDTH = APPLICATION_WIDTH;
     private static final int HEIGHT = APPLICATION_HEIGHT;
 
     /** Dimensions of the paddle */
-    private static final double PADDLE_WIDTH = 60;
-    private static final int PADDLE_HEIGHT = 10;
+    private static final double PADDLE_WIDTH = 80;
+    private static final int PADDLE_HEIGHT = 8;
 
     /** Offset of the paddle up from the bottom */
     private static final int PADDLE_Y_OFFSET = 30;
 
     /** Number of bricks per row */
-    private static final int NBRICKS_PER_ROW = 10;
+    private static final int NBRICKS_PER_ROW = 7;
 
     /** Number of rows of bricks */
-    private static final int NBRICK_ROWS = 5;
+    private static final int NBRICK_ROWS = 6;
 
     /** Separation between bricks */
     private static final int BRICK_SEP = 4;
@@ -44,7 +41,7 @@ public class Main extends GraphicsProgram {
     private static final int BRICK_HEIGHT = 8;
 
     /** Radius of the ball in pixels */
-    private static final int BALL_RADIUS = 7;
+    private static final int BALL_RADIUS = 6;
 
     /** Offset of the top brick row from the top */
     private static final int BRICK_Y_OFFSET = 120;
@@ -62,8 +59,9 @@ public class Main extends GraphicsProgram {
     //table height
     private static final int TABLE_HEIGHT=BRICK_Y_OFFSET-50;
 
-    double prev = 0;
 
+    public static int high_score=0;
+    double prev = 0;
     Ball ball;
     GPaddle paddle;
     ScoreTable table;
@@ -71,7 +69,7 @@ public class Main extends GraphicsProgram {
     public static GImage background=new GImage("background.jpg");
     Menu menu;
     boolean isView = true;
-
+    int score=0;
     int level = 1;
 
 
@@ -93,6 +91,7 @@ public class Main extends GraphicsProgram {
     public void run(){
         this.setSize(WIDTH,HEIGHT);
 
+
         addMouseListeners();
         setup();
         addMenu();
@@ -108,7 +107,7 @@ public class Main extends GraphicsProgram {
             //TODO if fix is possible
             //fix it someone please
             while(!isStart){
-               System.out.println();
+               System.out.print("");
             }
 
       /*      Thread tr = new Thread(){
@@ -189,6 +188,7 @@ public class Main extends GraphicsProgram {
                             table.setScore(score);
                             level++;
                             table.setLevel(level);
+                            setSpeed(level);
                             Brick.createBricks(NBRICKS_PER_ROW,NBRICK_ROWS,BRICK_SEP,BRICK_WIDTH,BRICK_HEIGHT,BRICK_Y_OFFSET,this);
                             break;
                         }
@@ -216,6 +216,7 @@ public class Main extends GraphicsProgram {
                             addMenu();
                             NTURNS=4;
                             score=0;
+                            Brick.bricksNumber=NBRICK_ROWS*NBRICKS_PER_ROW;
                             level = 1;
                             isView=true;
 
@@ -311,10 +312,19 @@ public class Main extends GraphicsProgram {
      * @param e
      */
     //TODO waitForClick instead of this
-    SeOptions options = new SeOptions(WIDTH, HEIGHT, BRICK_WIDTH, BRICK_HEIGHT);
+
+    int optionsCount = 0;
     public void mouseClicked(MouseEvent e){
+        System.out.println(Brick.bricksNumber);
+        System.out.println(y);
         if (getElementAt(e.getX(),e.getY()) instanceof SeOptions){
-            options.setVisible(false);
+           remove(getElementAt(e.getX(),e.getY()));
+           remove(menu);
+            background.sendToBack();
+           add(background);
+
+           add(menu);
+           return;
         }else
         if (isView) {
             Object object = menu.getElementAt(e.getX(), e.getY());
@@ -324,20 +334,26 @@ public class Main extends GraphicsProgram {
                 if (label.getLabel().equals("START")) {
                     isView = false;
                     remove(menu);
+                    remove(background);
                     background = new GImage("background.jpg");
+                    background.sendToBack();
                     background.setSize(WIDTH, HEIGHT - TABLE_HEIGHT);
                     add(background, 0, TABLE_HEIGHT);
                     background.sendToBack();
+
                     return;
                 }
                 if (label.getLabel().equals("EXIT")){
-
+                    System.exit(1);
                 }
                 if (label.getLabel().equals("OPTIONS")){
-                    add(options);
+                     SeOptions options = new SeOptions(WIDTH, HEIGHT, BRICK_WIDTH, BRICK_HEIGHT);
+                        add(options);
+
+                return;
                 }
             }}
-            isStart = true;
+        isStart = true;
 
     }
     public void mouseMoved(MouseEvent e){
